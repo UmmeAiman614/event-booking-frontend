@@ -4,6 +4,7 @@ import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from "react-icons/f
 import { getAllSpeakers } from "../../api/api";
 
 // ✅ Fixed photo resolver
+// ✅ Use VITE_UPLOADS_URL from .env
 const resolvePhotoUrl = (photo) => {
   if (!photo) {
     return "/assets/speaker-placeholder.jpg";
@@ -13,8 +14,9 @@ const resolvePhotoUrl = (photo) => {
   }
 
   // DB stores like: /uploads/filename.jpg
-  return `http://localhost:3000${photo}`;
+  return `${import.meta.env.VITE_UPLOADS_URL}${photo}`;
 };
+
 
 const Speakers = ({ bgColor = "bg-darkNavy" }) => {
   const [speakers, setSpeakers] = useState([]);
