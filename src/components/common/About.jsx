@@ -9,22 +9,20 @@ const HomeAbout = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-  const fetchAbout = async () => {
-    try {
-      console.log("📢 Fetching About info from backend...");
-      const { data } = await getAbout();
-      console.log("✅ About data received:", data);
-      setAbout(data);
-    } catch (err) {
-      console.error("❌ Failed to fetch About:", err.response || err.message || err);
-      setError("Failed to load about info.");
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchAbout = async () => {
+      try {
+        const { data } = await getAbout();
+        setAbout(data);
+      } catch (err) {
+        console.error("Failed to fetch About:", err);
+        setError("Failed to load about info.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchAbout();
-}, []);
+    fetchAbout();
+  }, []);
 
   if (loading) {
     return (

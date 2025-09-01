@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getAllSpeakers } from "../../api/api";
 
-const BACKEND_URL = "http://localhost:3000"; // Change to your backend URL
+const BACKEND_URL = "https://event-booking-frontend-kappa.vercel.app"; // Change to your backend URL
 
 const Schedule = () => {
   const [speakers, setSpeakers] = useState([]);

@@ -68,7 +68,7 @@ const Blog = () => {
               <div key={blog._id} className="rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition group">
                 {blog.image && (
                   <img
-                    src={`http://localhost:3000/${blog.image}`}
+                    src={`${import.meta.env.VITE_BACKEND_URL}/${blog.image}`}
                     alt={blog.title}
                     className="w-full h-96 md:h-96 object-cover"
                   />
