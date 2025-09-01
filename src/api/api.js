@@ -3,9 +3,12 @@ import axios from "axios";
 
 // Base instance
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api",
+  baseURL:
+    import.meta.env.VITE_API_URL ||
+    "https://event-booking-backend-eight.vercel.app/api",
   withCredentials: true, // if you use cookies/sessions
 });
+
 // Add token automatically to requests
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token"); // or "userToken", depending on your login storage
