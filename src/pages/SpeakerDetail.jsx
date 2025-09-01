@@ -50,7 +50,7 @@ const SpeakerDetail = () => {
   }
 
   const imageUrl = speaker.photo
-    ? `${import.meta.env.VITE_BACKEND_URL}${speaker.photo}`
+    ? `${import.meta.env.VITE_UPLOADS_URL}${speaker.photo}`
     : "/assets/speaker-placeholder.jpg";
 
   return (

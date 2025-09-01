@@ -14,7 +14,7 @@ const resolvePhotoUrl = (photo) => {
   }
 
   // DB stores like: /uploads/filename.jpg
-  return `${import.meta.env.VITE_BACKEND_URL}${photo}`;
+  return `${import.meta.env.VITE_UPLOADS_URL}${photo}`;
 };
 
 
