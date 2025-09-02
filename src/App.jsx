@@ -19,8 +19,8 @@ import GetTickets from "./pages/GetTickets";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import Bookings from "./pages/Bookings";
-import AdminEvents from "./pages/admin/AdminEvents";
-import EventDetail from "./pages/admin/EventDetail";
+import AdminEvents from "./pages/AdminEvents";
+import EventDetail from "./pages/EventDetail";
 
 // Admin Pages
 import Dashboard from "./pages/admin/Dashboard";
@@ -67,6 +67,7 @@ const App = () => {
           <Route path="signIn" element={<SignIn />} />
           <Route path="signUp" element={<SignUp />} />
           <Route path="events" element={<AdminEvents />} />
+          <Route path="events/:id" element={<EventDetail />} />
           <Route
             path="bookings"
             element={

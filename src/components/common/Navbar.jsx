@@ -63,6 +63,7 @@ const Navbar = () => {
   const baseLinks = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
+    {name: "Events", path: "/events" },
     { name: "Speakers", path: "/speakers" },
     { name: "Schedule", path: "/schedule" },
     { name: "Blog", path: "/blog" },

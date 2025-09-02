@@ -1,11 +1,11 @@
 // src/api/api.js
 import axios from "axios";
-
+// "https://event-booking-backend-eight.vercel.app/api",
 // Base instance
 const api = axios.create({
   baseURL:
     import.meta.env.VITE_API_URL ||
-    "https://event-booking-backend-eight.vercel.app/api",
+      "http://localhost:3000/api",
   withCredentials: true, // if you use cookies/sessions
 });
 
@@ -26,7 +26,7 @@ export const getAllEvents = () => api.get("/events");
 export const getEventById = (id) => api.get(`/events/${id}`);
 
 // -------- Bookings --------
-export const bookEvent = (eventId, data) => api.post(`/bookings}`, data);
+export const bookEvent = (eventId, data) => api.post(`/bookings/${eventId}`, data);
 export const getMyBookings = () => api.get("/my-bookings");
 export const getUserBookings = (userId) => api.get(`/bookings/user/${userId}`);
 
@@ -130,11 +130,12 @@ export const getEventsCount = () => api.get("/admin/events/count");
 export const getAllSpeakers = () => api.get("/speakers");
 export const getSpeakerById = (id) => api.get(`/speakers/${id}`); // <-- ADD THIS
 // api.js
-export const createSpeaker = (data) =>
-  api.post("/admin/speakers", data, {
-    headers: { "Content-Type": "multipart/form-data" },
+export const createSpeaker = (formData) => {
+  return api.post("/admin/speakers", formData, {
+    // ⚠️ Don't set Content-Type manually!
+    // Axios will set "multipart/form-data; boundary=..."
   });
-
+};
 
 export const updateSpeaker = (id, data) => api.put(`/speakers/${id}`, data);
 export const deleteSpeaker = (id) => api.delete(`/admin/speakers/${id}`);

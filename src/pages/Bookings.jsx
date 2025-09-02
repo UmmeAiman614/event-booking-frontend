@@ -86,7 +86,7 @@ const Bookings = () => {
                   <p className="mt-1 text-white">
                     Booking Date: {new Date(booking.createdAt).toLocaleDateString()}
                   </p>
-                  {booking.event && <p className="mt-1 text-white">Event: {booking.event.name}</p>}
+                  {booking.event && <p className="mt-1 text-white">Event: {booking.event.title}</p>}
                 </div>
 
                 <div className="mt-4">

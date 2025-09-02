@@ -22,21 +22,45 @@ const UpdateSpeaker = () => {
 
   // Fetch speaker data
   useEffect(() => {
-    const fetchSpeaker = async () => {
-      try {
-        const res = await getSpeakerById(id);
-        const speakerData = { ...res.data, password: "" };
-        // Ensure schedules is an array
-        if (!Array.isArray(speakerData.schedules)) speakerData.schedules = [];
-        setFormData(speakerData);
-      } catch (error) {
-        console.error("Failed to fetch speaker:", error);
-      } finally {
-        setLoading(false);
+  const fetchSpeaker = async () => {
+    try {
+      const res = await getSpeakerById(id);
+      const speakerData = { ...res.data, password: "" };
+
+      // Parse schedules if string
+      if (typeof speakerData.schedules === "string") {
+        try {
+          speakerData.schedules = JSON.parse(speakerData.schedules);
+        } catch {
+          speakerData.schedules = [];
+        }
       }
-    };
-    fetchSpeaker();
-  }, [id]);
+
+      if (!Array.isArray(speakerData.schedules)) {
+        speakerData.schedules = [];
+      }
+
+      // ✅ Normalize startTime and endTime for inputs
+      speakerData.schedules = speakerData.schedules.map((sch) => ({
+        ...sch,
+        startTime: sch.startTime
+          ? new Date(sch.startTime).toISOString().slice(0, 16) // for datetime-local
+          : "",
+        endTime: sch.endTime
+          ? new Date(sch.endTime).toISOString().slice(0, 16)
+          : "",
+      }));
+
+      setFormData(speakerData);
+    } catch (error) {
+      console.error("Failed to fetch speaker:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchSpeaker();
+}, [id]);
+
 
   // Handle form submission
   const handleSubmit = async (e) => {

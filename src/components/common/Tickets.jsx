@@ -1,74 +1,65 @@
-// src/pages/Tickets.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaCheck } from "react-icons/fa";
+import api from "../../api/api"; 
 
-// Add real event IDs here from your DB
-const ticketTypes = [
-    {
-        id: 1,
-        eventId: "66cfa12f9ab1d25e5c1b1234",
-        name: "Day Pass",
-        price: 35.99,
-        features: ["Conference Tickets", "Free Lunch And Coffee", "Certificate"],
-        bgColor: "bg-primaryBlue",
-        textColor: "text-white",
-        icon: "✈️",
-    },
-    {
-        id: 2,
-        eventId: "66cfa12f9ab1d25e5c1b1235",
-        name: "Full Pass",
-        price: 99.99,
-        features: ["Conference Tickets", "Free Lunch And Coffee", "Certificate"],
-        bgColor: "bg-accentOrange",
-        textColor: "text-white",
-        icon: "💎",
-    },
-    {
-        id: 3,
-        eventId: "66cfa12f9ab1d25e5c1b1236",
-        name: "Group Pass",
-        price: 199.99,
-        features: ["Conference Tickets", "Free Lunch And Coffee", "Certificate"],
-        bgColor: "bg-darkNavy",
-        textColor: "text-white",
-        icon: "🚀",
-    },
-];
-
-const Tickets = () => {
+const Tickets = ({ event }) => {
     const [selectedTickets, setSelectedTickets] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [currentTicket, setCurrentTicket] = useState(null);
     const navigate = useNavigate();
+
+    if (!event) return <p>Event not found</p>;
+
+    const ticketTypes = [
+        { id: 1, name: "Day Pass", price: 35.99, features: ["Conference Tickets", "Free Lunch And Coffee", "Certificate"], bgColor: "bg-primaryBlue", textColor: "text-white", icon: "✈️" },
+        { id: 2, name: "Full Pass", price: 99.99, features: ["Conference Tickets", "Free Lunch And Coffee", "Certificate"], bgColor: "bg-accentOrange", textColor: "text-white", icon: "💎" },
+        { id: 3, name: "Group Pass", price: 199.99, features: ["Conference Tickets", "Free Lunch And Coffee", "Certificate"], bgColor: "bg-darkNavy", textColor: "text-white", icon: "🚀" },
+    ];
 
     const handleQuantityChange = (ticketId, qty) => {
         setSelectedTickets({ ...selectedTickets, [ticketId]: qty });
     };
 
     const handleBuy = (ticket) => {
-        const user = localStorage.getItem("user");
+        setCurrentTicket(ticket);
+        setShowModal(true);
+    };
+
+    const confirmBooking = async () => {
+        if (!currentTicket) return;
+        const user = JSON.parse(localStorage.getItem("user"));
         if (!user) {
-            navigate("/signin", { state: { from: "/buy-tickets" } });
+            navigate("/signin", { state: { from: `/events/${event._id}` } });
             return;
         }
 
-        const qty = selectedTickets[ticket.id] || 1;
+        const qty = selectedTickets[currentTicket.id] || 1;
+        setLoading(true);
 
-        navigate("/get-tickets", {
-            state: {
-                eventId: ticket.eventId, // ✅ send eventId
-                ticketType: ticket.name,
-                price: ticket.price,
+        try {
+            await api.post(`/bookings/${event._id}`, {
+                ticketType: currentTicket.name,
                 quantity: qty,
-            },
-        });
+                totalPrice: currentTicket.price * qty,
+            });
+            setShowModal(false);
+            alert("Booking request sent! Waiting for admin approval."); // you can replace this with a nice toast
+            navigate("/bookings");
+        } catch (error) {
+            console.error("Failed to book ticket:", error);
+            alert("Something went wrong. Please try again.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <section className="py-20 bg-cream">
             <div className="container mx-auto px-6">
                 <div className="text-center mb-12">
-                    <h2 className="text-4xl font-bold text-darkNavy">Buy Your Tickets</h2>
+                    <h2 className="text-4xl font-bold text-darkNavy">Buy Your Tickets for {event.name}</h2>
                     <p className="text-neutralDark mt-4 max-w-xl mx-auto">
                         Secure your spot at the most exciting event of the year! Choose your ticket type and join us.
                     </p>
@@ -104,11 +95,12 @@ const Tickets = () => {
                                         />
                                     </div>
                                     <button
+                                        disabled={loading}
                                         onClick={() => handleBuy(ticket)}
-                                        className="relative w-full py-3 font-semibold text-white bg-accentOrange rounded-lg overflow-hidden group"
+                                        className="relative w-full py-3 font-semibold text-white bg-accentOrange rounded-lg overflow-hidden group disabled:opacity-50"
                                     >
                                         <span className="absolute inset-0 bg-gradient-to-r from-accentOrange to-primaryBlue -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-in-out"></span>
-                                        <span className="relative z-10">Buy Now</span>
+                                        <span className="relative z-10">{loading ? "Processing..." : "Buy Now"}</span>
                                     </button>
                                 </div>
                             </div>
@@ -116,6 +108,31 @@ const Tickets = () => {
                     ))}
                 </div>
             </div>
+
+            {/* ✅ Confirmation Modal */}
+            {showModal && currentTicket && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-xl p-8 w-96 text-center shadow-2xl">
+                        <h3 className="text-2xl font-bold mb-4">Confirm Your Booking</h3>
+                        <p className="mb-4">You are booking <strong>{selectedTickets[currentTicket.id] || 1}</strong> x <strong>{currentTicket.name}</strong></p>
+                        <p className="mb-6 text-lg font-semibold">Total Price: ${((selectedTickets[currentTicket.id] || 1) * currentTicket.price).toFixed(2)}</p>
+                        <div className="flex justify-center gap-4">
+                            <button
+                                onClick={() => setShowModal(false)}
+                                className="px-4 py-2 bg-gray-300 rounded-lg font-semibold"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={confirmBooking}
+                                className="px-4 py-2 bg-accentOrange text-white rounded-lg font-semibold"
+                            >
+                                Confirm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </section>
     );
 };
