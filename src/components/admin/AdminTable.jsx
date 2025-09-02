@@ -6,7 +6,7 @@ const AdminTable = ({ columns, data, actions }) => {
     <div className="w-full">
       {/* Horizontal scroll container */}
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[900px] bg-cream text-darkNavy text-base whitespace-nowrap border-collapse">
+        <table className="w-full min-w-[900px] bg-cream text-darkNavy text-sm whitespace-nowrap border-collapse">
           <thead className="bg-primaryBlue text-white">
             <tr>
               {columns.map((col) => (
