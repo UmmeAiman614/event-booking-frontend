@@ -91,7 +91,7 @@ export const updateUser = async (id, updatedData) => {
     throw error.response?.data || error;
   }
 };
-
+export const getUsersCount = () => api.get("/admin/users/count");
 
 // -------- Auth --------
 export const registerUser = ({ name, email, password }) =>
@@ -109,6 +109,8 @@ export const updateEventSchedule = (eventId, scheduleId, data) =>
   api.put(`/admin/events/${eventId}/schedules/${scheduleId}`, data);
 export const deleteEventSchedule = (eventId, scheduleId) =>
   api.delete(`/admin/events/${eventId}/schedules/${scheduleId}`);
+export const getEventsCount = () => api.get("/admin/events/count");
+
 
 // -------- Speakers --------
 export const getAllSpeakers = () => api.get("/speakers");
@@ -130,17 +132,20 @@ export const updateSpeakerSchedule = (speakerId, scheduleId, data) =>
   api.put(`/admin/speakers/${speakerId}/schedules/${scheduleId}`, data);
 export const deleteSpeakerSchedule = (speakerId, scheduleId) =>
   api.delete(`/admin/speakers/${speakerId}/schedules/${scheduleId}`);
+export const getSpeakersCount = () => api.get("/admin/speakers/count");
 
 
 // -------- Bookings --------
 export const getAllBookings = () => api.get("/admin/bookings");
 export const approveBooking = (id) => api.put(`/admin/bookings/${id}/approve`);
 export const rejectBooking = (id) => api.put(`/admin/bookings/${id}/reject`);
+export const getBookingsCount = () => api.get("/admin/bookings/count");
 
 // -------- Blogs --------
 export const createBlog = (data) => api.post("/admin/blogs", data);
 export const updateBlog = (id, data) => api.put(`/admin/blogs/${id}`, data);
 export const deleteBlog = (id) => api.delete(`/admin/blogs/${id}`);
+export const getBlogsCount = () => api.get("/admin/blogs/count");
 
 
 // -------- Comments --------
@@ -151,6 +156,7 @@ export const approveComment = (id, data) =>
   api.put(`/admin/comments/${id}/approve`, data, {
     headers: { "Content-Type": "application/json" },
   });
+export const getCommentsCount = () => api.get("/admin/comments/count");
 
 
 // -------- About --------
@@ -163,6 +169,7 @@ export const createAbout = (data) => api.post("/admin/about", data);
 
 // Update about (admin)
 export const updateAbout = (data) => api.put("/admin/about", data);
+export const getAboutCount = () => api.get("/admin/about/count");
 
 // Delete about (admin - optional)
 export const deleteAbout = () => api.delete("/admin/about");
@@ -181,6 +188,9 @@ export const deleteContact = (id) => api.delete(`/admin/contacts/${id}`);
 
 // Mark message as read (requires admin)
 export const markMessageAsRead = (id) => api.put(`/admin/contacts/${id}/read`);
+export const getContactsCount = () => api.get("/admin/contacts/count");
+
+
 
 
 

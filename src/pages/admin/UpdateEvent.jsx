@@ -1,4 +1,3 @@
-// src/pages/admin/UpdateEvent.jsx
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import AdminForm from "../../components/admin/AdminForm";
@@ -14,6 +13,7 @@ const UpdateEvent = () => {
     { label: "Description", name: "description", type: "textarea", fullWidth: true },
     { label: "Date", name: "date", type: "date", required: true },
     { label: "Location", name: "location", type: "text" },
+    { label: "Total Seats", name: "totalSeats", type: "number", required: true }, // <-- new field
   ];
 
   useEffect(() => {
@@ -29,6 +29,7 @@ const UpdateEvent = () => {
             startTime: s.startTime ? s.startTime.substring(0, 16) : "",
             endTime: s.endTime ? s.endTime.substring(0, 16) : "",
           })),
+          totalSeats: res.data.totalSeats || 0, // <-- populate totalSeats
         };
 
         setFormData(eventData);
@@ -45,7 +46,7 @@ const UpdateEvent = () => {
     e.preventDefault();
     try {
       await updateEvent(id, formData);
-      navigate("/admin/events"); // redirect to events table
+      navigate("/admin/events");
     } catch (err) {
       console.error("Error updating event:", err);
       alert("Failed to update event");

@@ -1,4 +1,3 @@
-// src/pages/admin/AddEvent.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminForm from "../../components/admin/AdminForm";
@@ -12,6 +11,7 @@ const AddEvent = () => {
     date: "",
     location: "",
     schedules: [],
+    totalSeats: 0, // <-- new field
   });
 
   const eventFields = [
@@ -19,13 +19,14 @@ const AddEvent = () => {
     { label: "Description", name: "description", type: "textarea", fullWidth: true },
     { label: "Date", name: "date", type: "date", required: true },
     { label: "Location", name: "location", type: "text" },
+    { label: "Total Seats", name: "totalSeats", type: "number", required: true }, // <-- new field
   ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createEvent(formData);
-      navigate("/admin/events"); // redirect to events table
+      await createEvent(formData); // availableSeats will be set automatically in backend
+      navigate("/admin/events");
     } catch (err) {
       console.error("Error creating event:", err);
       alert("Failed to create event");

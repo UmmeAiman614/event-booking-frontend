@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../../components/admin/Sidebar";
 import {
-  getAllUsers,
-  getAllSpeakers,
-  getAllEvents,
-  getAllBlogs,
-  getAllComments,
-  getAbout,
-  getAllBookings,
-  getAllContacts,
+  getUsersCount,
+  getSpeakersCount,
+  getEventsCount,
+  getBlogsCount,
+  getCommentsCount,
+  getAboutCount,
+  getBookingsCount,
+  getContactsCount,
 } from "../../api/api";
 import {
   FaUsers,
@@ -34,7 +34,7 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchCounts = async () => {
       try {
         const [
           usersRes,
@@ -46,36 +46,32 @@ const Dashboard = () => {
           bookingsRes,
           contactsRes,
         ] = await Promise.all([
-          getAllUsers(),
-          getAllSpeakers(),
-          getAllEvents(),
-          getAllBlogs(),
-          getAllComments(),
-          getAbout(),
-          getAllBookings(),
-          getAllContacts(),
+          getUsersCount(),
+          getSpeakersCount(),
+          getEventsCount(),
+          getBlogsCount(),
+          getCommentsCount(),
+          getAboutCount(),
+          getBookingsCount(),
+          getContactsCount(),
         ]);
 
         setStats({
-          users: Array.isArray(usersRes?.data)
-            ? usersRes.data.length
-            : Array.isArray(usersRes)
-            ? usersRes.length
-            : usersRes?.users?.length || 0,
-          speakers: speakersRes?.data?.length || 0,
-          events: eventsRes?.data?.length || 0,
-          blogs: blogsRes?.data?.length || 0,
-          comments: commentsRes?.data?.length || 0,
-          about: aboutRes ? 1 : 0,
-          bookings: bookingsRes?.data?.length || 0,
-          contacts: contactsRes?.data?.length || 0,
+          users: usersRes?.data?.count || 0,
+          speakers: speakersRes?.data?.count || 0,
+          events: eventsRes?.data?.count || 0,
+          blogs: blogsRes?.data?.count || 0,
+          comments: commentsRes?.data?.count || 0,
+          about: aboutRes?.data?.count || 0,
+          bookings: bookingsRes?.data?.count || 0,
+          contacts: contactsRes?.data?.count || 0,
         });
       } catch (err) {
-        console.error("❌ Failed to fetch dashboard data:", err);
+        console.error("❌ Failed to fetch dashboard counts:", err);
       }
     };
 
-    fetchData();
+    fetchCounts();
   }, []);
 
   const cards = [

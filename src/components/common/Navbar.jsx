@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getUserBookings } from "../../api/api"; // your API call to fetch bookings
+import { getUserBookings } from "../../api/api";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,7 +8,6 @@ const Navbar = () => {
   const [bookings, setBookings] = useState([]);
   const navigate = useNavigate();
 
-  // Load user and fetch bookings
   useEffect(() => {
     const fetchUserBookings = async () => {
       const storedUser = localStorage.getItem("user");
@@ -18,10 +17,7 @@ const Navbar = () => {
 
         if (parsedUser && parsedUser.role === "user" && parsedUser.id) {
           getUserBookings(parsedUser.id)
-            .then((res) => {
-              const data = res.data;
-              setBookings(data || []);
-            })
+            .then((res) => setBookings(res.data || []))
             .catch((err) => console.error("Failed to fetch bookings:", err));
         }
       }
@@ -61,6 +57,7 @@ const Navbar = () => {
     setUser(null);
     setBookings([]);
     navigate("/signIn");
+    setIsOpen(false);
   };
 
   const baseLinks = [
@@ -72,7 +69,6 @@ const Navbar = () => {
     { name: "Contact", path: "/contact" },
   ];
 
-  // Compute nav links dynamically after bookings state updates
   const navLinks = [
     ...baseLinks,
     ...(user && user.role === "user" && bookings.length > 0
@@ -80,7 +76,6 @@ const Navbar = () => {
       : []),
   ];
 
-  // ✅ Decide dashboard path based on role
   const getDashboardPath = () => {
     if (!user) return "/signIn";
     if (user.role === "admin") return "/admin/dashboard";
@@ -141,7 +136,88 @@ const Navbar = () => {
             Get Tickets
           </Link>
         </div>
+
+        {/* Mobile Hamburger */}
+        <div className="md:hidden flex items-center">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-darkNavy focus:outline-none"
+          >
+            {/* Hamburger icon */}
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+              ></path>
+            </svg>
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="md:hidden bg-cream shadow-lg">
+          <ul className="flex flex-col space-y-4 p-4">
+            {navLinks.map((link) => (
+              <li key={link.name}>
+                <Link
+                  to={link.path}
+                  onClick={() => setIsOpen(false)}
+                  className="text-darkNavy font-semibold block hover:text-primaryBlue transition"
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+
+            {user ? (
+              <>
+                {(user.role === "admin" || user.role === "speaker") && (
+                  <button
+                    onClick={() => {
+                      navigate(getDashboardPath());
+                      setIsOpen(false);
+                    }}
+                    className="px-4 py-2 rounded bg-primaryBlue text-white hover:bg-accentOrange transition w-full text-left"
+                  >
+                    Admin Dashboard
+                  </button>
+                )}
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 transition w-full text-left"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/signIn"
+                onClick={() => setIsOpen(false)}
+                className="px-4 py-2 rounded bg-primaryBlue text-white hover:bg-accentOrange transition block text-center"
+              >
+                Login
+              </Link>
+            )}
+
+            <Link
+              to="/get-tickets"
+              onClick={() => setIsOpen(false)}
+              className="ml-0 mt-2 bg-accentOrange text-white px-4 py-2 rounded hover:bg-primaryBlue transition block text-center"
+            >
+              Get Tickets
+            </Link>
+          </ul>
+        </div>
+      )}
     </nav>
   );
 };
