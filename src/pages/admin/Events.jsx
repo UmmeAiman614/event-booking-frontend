@@ -48,6 +48,8 @@ const Events = () => {
       render: (value) => new Date(value).toLocaleDateString(),
     },
     { key: "location", title: "Location" },
+    { key: "totalSeats", title: "Total Seats" },           // <-- new column
+    { key: "availableSeats", title: "Available Seats" },   // <-- new column
   ];
 
   // Actions for AdminTable
