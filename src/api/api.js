@@ -129,14 +129,12 @@ export const getEventsCount = () => api.get("/admin/events/count");
 // -------- Speakers --------
 export const getAllSpeakers = () => api.get("/speakers");
 export const getSpeakerById = (id) => api.get(`/speakers/${id}`); // <-- ADD THIS
-export const createSpeaker = (data) => {
-  const token = localStorage.getItem("token"); // get JWT
-  return api.post("/admin/speakers", data, {
-    headers: {
-      Authorization: `Bearer ${token}`, // send token
-    },
+// api.js
+export const createSpeaker = (data) =>
+  api.post("/admin/speakers", data, {
+    headers: { "Content-Type": "multipart/form-data" },
   });
-};
+
 
 export const updateSpeaker = (id, data) => api.put(`/speakers/${id}`, data);
 export const deleteSpeaker = (id) => api.delete(`/admin/speakers/${id}`);
