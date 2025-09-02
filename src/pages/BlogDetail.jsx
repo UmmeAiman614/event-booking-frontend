@@ -94,7 +94,7 @@ const BlogDetail = () => {
             {blog.image && (
               <div className="relative group overflow-hidden rounded-xl shadow-lg">
                 <img
-                  src={`${import.meta.env.VITE_UPLOADS_URL}/${blog.image}`}
+                  src={`http://localhost:3000/${blog.image}`}
                   alt={blog.title}
                   className="w-full h-96 md:h-[600px] object-cover"
                 />

@@ -64,33 +64,33 @@ const Blog = () => {
         <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-4 gap-10">
           {/* Blog Posts */}
           <div className="lg:col-span-3 space-y-10">
-           {currentPosts.map((blog) => (
-  <div key={blog._id} className="rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition group">
-    {blog.image && (
-      <>
-        {console.log("Blog image path:", `${import.meta.env.VITE_UPLOADS_URL}/${blog.image}`)}
-        <img
-          src={`${import.meta.env.VITE_UPLOADS_URL}/${blog.image}`}
-          alt={blog.title}
-          className="w-full h-96 md:h-96 object-cover"
-        />
-      </>
-    )}
-    <div className="p-6 bg-cream">
-      <p className="text-sm text-accentOrange font-semibold mb-2">
-        {new Date(blog.createdAt).toLocaleDateString()}
-      </p>
-      <h3 className="text-xl font-bold text-darkNavy mb-4">{blog.title}</h3>
-      <p className="text-neutralDark mb-4">{blog.content.slice(0, 200)}...</p>
-      <Link
-        to={`/blog/${blog._id}`}
-        className="relative inline-block px-8 py-3 font-semibold text-white rounded-lg overflow-hidden group bg-accentOrange hover:bg-gradient-to-r hover:from-accentOrange hover:to-primaryBlue transition-all duration-300"
-      >
-        <span className="relative z-10">Read More</span>
-      </Link>
-    </div>
-  </div>
-))}
+            {currentPosts.map((blog) => (
+              <div key={blog._id} className="rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition group">
+                {blog.image && (
+                  <>
+                    {console.log("Blog image path:", `${import.meta.env.VITE_UPLOADS_URL}/${blog.image}`)}
+                    <img
+                      src={`http://localhost:3000/${blog.image}`}
+                      alt={blog.title}
+                      className="w-full h-96 md:h-96 object-cover"
+                    />
+                  </>
+                )}
+                <div className="p-6 bg-cream">
+                  <p className="text-sm text-accentOrange font-semibold mb-2">
+                    {new Date(blog.createdAt).toLocaleDateString()}
+                  </p>
+                  <h3 className="text-xl font-bold text-darkNavy mb-4">{blog.title}</h3>
+                  <p className="text-neutralDark mb-4">{blog.content.slice(0, 200)}...</p>
+                  <Link
+                    to={`/blog/${blog._id}`}
+                    className="relative inline-block px-8 py-3 font-semibold text-white rounded-lg overflow-hidden group bg-accentOrange hover:bg-gradient-to-r hover:from-accentOrange hover:to-primaryBlue transition-all duration-300"
+                  >
+                    <span className="relative z-10">Read More</span>
+                  </Link>
+                </div>
+              </div>
+            ))}
 
 
             {/* Pagination */}
@@ -107,9 +107,8 @@ const Blog = () => {
                 <button
                   key={idx}
                   onClick={() => setCurrentPage(idx + 1)}
-                  className={`px-4 py-2 rounded-lg font-semibold transition ${
-                    currentPage === idx + 1 ? "bg-accentOrange text-white" : "bg-primaryBlue text-white hover:bg-darkNavy"
-                  }`}
+                  className={`px-4 py-2 rounded-lg font-semibold transition ${currentPage === idx + 1 ? "bg-accentOrange text-white" : "bg-primaryBlue text-white hover:bg-darkNavy"
+                    }`}
                 >
                   {idx + 1}
                 </button>
