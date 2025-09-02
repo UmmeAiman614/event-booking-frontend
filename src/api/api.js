@@ -9,9 +9,9 @@ const api = axios.create({
   withCredentials: true, // if you use cookies/sessions
 });
 
-// Add token automatically to requests
+// Add token automatically
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token"); // or "userToken", depending on your login storage
+  const token = localStorage.getItem("token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -100,8 +100,22 @@ export const registerUser = ({ name, email, password }) =>
 export const loginUser = ({ email, password }) =>
   api.post("/auth/login", { email, password });
 // -------- Events --------
-export const createEvent = (data) => api.post("/admin/events", data);
-export const updateEvent = (id, data) => api.put(`/admin/events/${id}`, data);
+// src/api/api.js
+
+// createEvent.js
+// api.js
+export const createEvent = (data) =>
+  api.post("/admin/events", data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
+export const updateEvent = (id, data) =>
+  api.put(`/admin/events/${id}`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
+
+
 export const deleteEvent = (id) => api.delete(`/admin/events/${id}`);
 export const addEventSchedule = (eventId, data) =>
   api.post(`/admin/events/${eventId}/schedules`, data);

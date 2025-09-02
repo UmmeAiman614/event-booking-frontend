@@ -19,6 +19,8 @@ import GetTickets from "./pages/GetTickets";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import Bookings from "./pages/Bookings";
+import AdminEvents from "./pages/admin/AdminEvents";
+import EventDetail from "./pages/admin/EventDetail";
 
 // Admin Pages
 import Dashboard from "./pages/admin/Dashboard";
@@ -38,6 +40,7 @@ import AboutForm from "./pages/admin/AboutForm";
 import AdminBookings from "./pages/admin/AdminBookings";
 import AdminComments from "./pages/admin/AdminComments";
 import AdminContacts from "./pages/admin/AdminContacts";
+
 
 const App = () => {
   return (
@@ -63,6 +66,7 @@ const App = () => {
           <Route path="contact" element={<Contact />} />
           <Route path="signIn" element={<SignIn />} />
           <Route path="signUp" element={<SignUp />} />
+          <Route path="events" element={<AdminEvents />} />
           <Route
             path="bookings"
             element={

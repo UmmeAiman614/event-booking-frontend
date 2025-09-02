@@ -13,7 +13,8 @@ const UpdateEvent = () => {
     { label: "Description", name: "description", type: "textarea", fullWidth: true },
     { label: "Date", name: "date", type: "date", required: true },
     { label: "Location", name: "location", type: "text" },
-    { label: "Total Seats", name: "totalSeats", type: "number", required: true }, // <-- new field
+    { label: "Total Seats", name: "totalSeats", type: "number", required: true },
+    { label: "Event Image", name: "image", type: "file" }, // <-- new file input
   ];
 
   useEffect(() => {
@@ -29,7 +30,8 @@ const UpdateEvent = () => {
             startTime: s.startTime ? s.startTime.substring(0, 16) : "",
             endTime: s.endTime ? s.endTime.substring(0, 16) : "",
           })),
-          totalSeats: res.data.totalSeats || 0, // <-- populate totalSeats
+          totalSeats: res.data.totalSeats || 0,
+          image: null, // initialize image field for new upload
         };
 
         setFormData(eventData);
@@ -43,15 +45,29 @@ const UpdateEvent = () => {
   }, [id]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await updateEvent(id, formData);
-      navigate("/admin/events");
-    } catch (err) {
-      console.error("Error updating event:", err);
-      alert("Failed to update event");
+  e.preventDefault();
+  try {
+    const data = new FormData();
+
+    data.append("title", formData.title);
+    data.append("description", formData.description);
+    data.append("date", formData.date);
+    data.append("location", formData.location);
+    data.append("totalSeats", formData.totalSeats);
+    data.append("schedules", JSON.stringify(formData.schedules || []));
+
+    if (formData.image) {
+      data.append("image", formData.image);
     }
-  };
+
+    await updateEvent(id, data);
+    navigate("/admin/events");
+  } catch (err) {
+    console.error("Error updating event:", err);
+    alert("Failed to update event");
+  }
+};
+
 
   if (!formData) return <p>Loading event data...</p>;
 
