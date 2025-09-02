@@ -7,7 +7,6 @@ import Schedule from "../components/common/Schedule";
 import WhyChooseUs from "../components/home/WhyChooseUs";
 import RegisterForm from "../components/home/RegisterForm";
 import BlogSection from "../components/home/BlogSection";
-import Tickets from "../components/common/Tickets";
 const Home = () => {
   return (
     <div>
@@ -17,7 +16,6 @@ const Home = () => {
       <Speakers />
       <Stats bgColor="bg-cream" numberColor="text-darkNavy" labelColor="text-neutralDark" />
       <Schedule />
-      <Tickets />
       <WhyChooseUs />
       <RegisterForm />
       <BlogSection />

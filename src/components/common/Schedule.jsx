@@ -66,61 +66,59 @@ const Schedule = () => {
         </div>
 
         {/* Timeline */}
-        <div className="relative space-y-16">
-          {schedulesForDay.map((item, idx) => {
-            const isEven = idx % 2 === 0;
-            const bgColor =
-              isEven
-                ? "bg-primaryBlue before:border-r-primaryBlue"
-                : "bg-accentOrange before:border-l-accentOrange";
+       {/* Timeline */}
+<div className="relative space-y-16">
+  {/* Vertical dotted line */}
+  <div className="hidden md:block absolute left-1/2 top-0 transform -translate-x-1/2 h-full border-l-2 border-dotted border-neutralDark z-0"></div>
 
-            return (
-              <div
-                key={idx}
-                className="relative flex flex-col md:flex-row items-center md:items-start"
-              >
-                {/* Time Circle */}
-                <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-20 h-20 rounded-full bg-accentOrange text-white font-bold items-center justify-center shadow-lg z-10">
-                  {new Date(item.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </div>
+  {schedulesForDay.map((item, idx) => {
+    const isEven = idx % 2 === 0;
+    const bgColor =
+      isEven
+        ? "bg-primaryBlue"
+        : "bg-accentOrange";
 
-                {/* Speaker Card */}
-                {/* Speaker Card */}
-                <div
-                  key={idx}
-                  className={`relative w-full md:w-[45%] ${bgColor} text-white p-6 rounded-lg shadow-2xl transition-all duration-300 ${isEven
-                    ? "ml-auto before:content-[''] before:absolute before:top-8 before:right-full before:border-y-8 before:border-r-8 before:border-y-transparent"
-                    : "mr-auto before:content-[''] before:absolute before:top-8 before:left-full before:border-y-8 before:border-l-8 before:border-y-transparent"
-                    }`}
-                >
-                  <div className="flex flex-col md:flex-row items-start gap-4">
-                    {/* Left: Speaker Image */}
-                    <img
-                      src={item.speakerPhoto}
-                      alt={item.speakerName}
-                      className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-2 border-white flex-shrink-0"
-                    />
-
-                    {/* Right: Name, Role, Description, Read More */}
-                    <div className="flex flex-col">
-                      <h3 className="text-lg font-semibold">{item.speakerName}</h3>
-                      <p className="text-sm text-cream mb-2">{item.speakerRole}</p>
-                      <p className="text-sm text-cream mb-4">{item.description}</p>
-                      <Link
-                        to={`/speakers/${item.speakerId}`}
-                        className="px-4 py-2 bg-darkNavy rounded-lg text-white hover:bg-cream hover:text-darkNavy transition inline-block"
-                      >
-                        Read More
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-
-
-              </div>
-            );
-          })}
+    return (
+      <div
+        key={idx}
+        className="relative flex flex-col md:flex-row items-center md:items-start"
+      >
+        {/* Time Circle */}
+        <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-20 h-20 rounded-full bg-accentOrange text-white font-bold items-center justify-center shadow-lg z-10">
+          {new Date(item.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </div>
+
+        {/* Speaker Card */}
+        <div
+          className={`relative w-full md:w-[45%] ${bgColor} text-white p-6 rounded-lg shadow-2xl transition-all duration-300 ${isEven
+            ? "ml-auto before:content-[''] before:absolute before:top-8 before:right-full before:border-y-8 before:border-r-8 before:border-y-transparent"
+            : "mr-auto before:content-[''] before:absolute before:top-8 before:left-full before:border-y-8 before:border-l-8 before:border-y-transparent"
+            }`}
+        >
+          <div className="flex flex-col md:flex-row items-start gap-4">
+            <img
+              src={item.speakerPhoto}
+              alt={item.speakerName}
+              className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-2 border-white flex-shrink-0"
+            />
+            <div className="flex flex-col">
+              <h3 className="text-lg font-semibold">{item.speakerName}</h3>
+              <p className="text-sm text-cream mb-2">{item.speakerRole}</p>
+              <p className="text-sm text-cream mb-4">{item.description}</p>
+              <Link
+                to={`/speakers/${item.speakerId}`}
+                className="px-4 py-2 bg-darkNavy rounded-lg text-white hover:bg-cream hover:text-darkNavy transition inline-block"
+              >
+                Read More
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  })}
+</div>
+
       </div>
     </section>
   );

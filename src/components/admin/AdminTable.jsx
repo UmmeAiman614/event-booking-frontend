@@ -4,21 +4,21 @@ import React from "react";
 const AdminTable = ({ columns, data, actions }) => {
   return (
     <div className="w-full">
-      {/* Horizontal scroll container */}
+      {/* Horizontal scroll container only on small screens */}
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[900px] bg-cream text-darkNavy text-sm whitespace-nowrap border-collapse">
+        <table className="w-full bg-cream text-darkNavy text-sm md:text-base whitespace-nowrap border-collapse">
           <thead className="bg-primaryBlue text-white">
             <tr>
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className="text-left py-3 px-4 uppercase font-semibold text-lg"
+                  className="text-left py-2 md:py-3 px-2 md:px-4 uppercase font-semibold text-sm md:text-lg"
                 >
                   {col.title}
                 </th>
               ))}
               {actions && (
-                <th className="py-3 px-4 text-left font-semibold text-lg">
+                <th className="py-2 md:py-3 px-2 md:px-4 text-left font-semibold text-sm md:text-lg">
                   Actions
                 </th>
               )}
@@ -29,7 +29,7 @@ const AdminTable = ({ columns, data, actions }) => {
               <tr>
                 <td
                   colSpan={columns.length + (actions ? 1 : 0)}
-                  className="text-center py-4 text-lg"
+                  className="text-center py-4 text-sm md:text-base"
                 >
                   No data available
                 </td>
@@ -43,7 +43,7 @@ const AdminTable = ({ columns, data, actions }) => {
                 {columns.map((col) => (
                   <td
                     key={col.key}
-                    className="py-3 px-4 text-base sm:text-lg"
+                    className="py-2 md:py-3 px-2 md:px-4 text-sm md:text-base"
                   >
                     {col.render
                       ? col.render(item[col.key], item)
@@ -51,12 +51,12 @@ const AdminTable = ({ columns, data, actions }) => {
                   </td>
                 ))}
                 {actions && (
-                  <td className="py-3 px-4 flex flex-wrap gap-2">
+                  <td className="py-2 md:py-3 px-2 md:px-4 flex flex-wrap gap-2">
                     {actions.map((action, idx) => (
                       <button
                         key={idx}
                         onClick={() => action.onClick(item)}
-                        className={`py-2 px-4 rounded-lg text-white text-base ${action.color}`}
+                        className={`py-1 md:py-2 px-2 md:px-4 rounded-lg text-white text-sm md:text-base ${action.color}`}
                       >
                         {action.label}
                       </button>

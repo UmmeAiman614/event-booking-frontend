@@ -30,15 +30,17 @@ const EventDetail = () => {
 
   return (
     <>
-      <PageHeader
-        title="Event Details"
-        image="/assets/page-header.jpg"
-        breadcrumbs={[
-          { label: "Home", path: "/" },
-          { label: "Events", path: "/events" },
-          { label: "Event Detail" },
-        ]}
-      />
+     <PageHeader
+  title={event.title}
+  image="/assets/page-header.jpg"
+  breadcrumbs={[
+    { label: "Home", path: "/" },
+    { label: "Events", path: "/events" },
+    { label: "Event Detail" },
+  ]}
+  event={event} // pass your event object here
+/>
+
       <div className="p-8 bg-cream min-h-screen">
       
         <h1 className="text-3xl font-bold mb-4 text-darkNavy">{event.title}</h1>
