@@ -45,7 +45,7 @@ const EventDetail = () => {
       
         <h1 className="text-3xl font-bold mb-4 text-darkNavy">{event.title}</h1>
         <img
-          src={`http://localhost:3000${event.image}`}
+           src={event.image?.startsWith("http") ? event.image : `${import.meta.env.VITE_UPLOADS_URL}/${event.image}`}
           alt={event.title}
           className="w-full h-64 object-cover rounded-md mb-4 shadow"
         />

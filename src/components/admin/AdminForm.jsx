@@ -14,6 +14,7 @@ const AdminForm = ({
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
     if (type === "file") {
+      // Update formData with the selected File object
       setFormData({ ...formData, [name]: files[0] });
     } else {
       setFormData({ ...formData, [name]: value });
@@ -61,6 +62,31 @@ const AdminForm = ({
                   className="border border-neutralDark/50 rounded p-2 w-full bg-white text-darkNavy"
                   required={field.required}
                 />
+              ) : field.type === "file" ? (
+                <>
+                  <input
+                    type="file"
+                    name={field.name}
+                    onChange={handleChange}
+                    className="border border-neutralDark/50 rounded p-2 w-full bg-white text-darkNavy"
+                  />
+                  {/* Preview existing photo */}
+                  {formData.photo && !(formData.photo instanceof File) && (
+                    <img
+                      src={formData.photo}
+                      alt="Preview"
+                      className="mt-2 w-32 h-32 object-cover rounded"
+                    />
+                  )}
+                  {/* Preview selected file */}
+                  {formData.photo instanceof File && (
+                    <img
+                      src={URL.createObjectURL(formData.photo)}
+                      alt="Selected"
+                      className="mt-2 w-32 h-32 object-cover rounded"
+                    />
+                  )}
+                </>
               ) : field.type === "select" ? (
                 <select
                   name={field.name}
@@ -80,7 +106,7 @@ const AdminForm = ({
                 <input
                   type={field.type}
                   name={field.name}
-                  value={field.type !== "file" ? formData[field.name] || "" : undefined}
+                  value={formData[field.name] || ""}
                   onChange={field.readOnly ? undefined : handleChange}
                   className={`border border-neutralDark/50 rounded p-2 w-full bg-white text-darkNavy ${
                     field.readOnly ? "bg-gray-200 cursor-not-allowed" : ""
@@ -101,7 +127,7 @@ const AdminForm = ({
               {schedules.map((schedule, idx) => (
                 <div
                   key={idx}
-                  className="bg-primaryBlue/10 p-4 rounded relative space-y-2 flex flex-col sm:flex-col md:flex-col"
+                  className="bg-primaryBlue/10 p-4 rounded relative space-y-2 flex flex-col"
                 >
                   <button
                     type="button"

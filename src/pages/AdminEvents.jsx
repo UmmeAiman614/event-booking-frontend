@@ -12,6 +12,7 @@ const AdminEvents = () => {
     const fetchEvents = async () => {
       try {
         const res = await getAllEvents(); // GET /api/events
+        console.log(res.data);
         setEvents(res.data);
       } catch (error) {
         console.error("Failed to fetch events:", error);
@@ -46,7 +47,7 @@ const AdminEvents = () => {
               className="border border-neutralDark rounded-lg p-4 shadow hover:shadow-lg transition bg-cream"
             >
               <img
-                src={`http://localhost:3000${event.image}`}
+                src={event.image?.startsWith("http") ? event.image : `${import.meta.env.VITE_UPLOADS_URL}/${event.image}`}
                 alt={event.title}
                 className="w-full h-40 object-cover rounded-md mb-3"
               />
