@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { sendContactMessage } from "../api/api";
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import PageHeader from "../components/common/PageHeader";
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
@@ -21,6 +22,12 @@ const Contact = () => {
   };
 
   return (
+    <>
+     <PageHeader
+        title="Contact Us"
+        image="/assets/page-header.jpg"
+        breadcrumbs={[{ label: "Home", path: "/" }, { label: "Contact" }]}
+      />
     <section className="bg-cream min-h-screen flex items-center justify-center py-16 px-6">
       <div className="max-w-6xl w-full grid md:grid-cols-2 gap-10 bg-white shadow-xl rounded-2xl overflow-hidden">
         
@@ -101,6 +108,7 @@ const Contact = () => {
         </div>
       </div>
     </section>
+    </>
   );
 };
 

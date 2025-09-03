@@ -4,8 +4,8 @@ import axios from "axios";
 // Base instance
 const api = axios.create({
   baseURL:
-    import.meta.env.VITE_API_URL ||
-     "https://event-booking-backend-eight.vercel.app/api",
+    import.meta.env.VITE_BACKEND_URL ||
+    "https://event-booking-backend-eight.vercel.app/api",
   withCredentials: true, // if you use cookies/sessions
 });
 
