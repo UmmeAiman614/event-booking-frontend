@@ -50,8 +50,10 @@ const SpeakerDetail = () => {
   }
 
   const imageUrl = speaker.photo
-    ? `${import.meta.env.VITE_UPLOADS_URL}${speaker.photo}`
-    : "/assets/speaker-placeholder.jpg";
+  ? speaker.photo.startsWith("http")
+    ? speaker.photo
+    : `${import.meta.env.VITE_UPLOADS_URL}${speaker.photo}`
+  : "/assets/speaker-placeholder.jpg";
 
   return (
     <section className="py-20 bg-cream text-darkNavy">

@@ -69,11 +69,12 @@ const Blog = () => {
                 {blog.image && (
                   <>
                     {console.log("Blog image path:", `${import.meta.env.VITE_UPLOADS_URL}/${blog.image}`)}
-                    <img
-                      src={`${import.meta.env.VITE_UPLOADS_URL}/${blog.image}`}
-                      alt={blog.title}
-                      className="w-full h-96 md:h-96 object-cover"
-                    />
+                   <img
+  src={blog.image?.startsWith("http") ? blog.image : `${import.meta.env.VITE_UPLOADS_URL}/${blog.image}`}
+  alt={blog.title}
+  className="w-full h-96 md:h-96 object-cover"
+/>
+
                   </>
                 )}
                 <div className="p-6 bg-cream">

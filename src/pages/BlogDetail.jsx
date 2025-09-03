@@ -94,10 +94,13 @@ const BlogDetail = () => {
             {blog.image && (
               <div className="relative group overflow-hidden rounded-xl shadow-lg">
                 <img
-                  src={`${import.meta.env.VITE_UPLOADS_URL}/${blog.image}`}
-                  alt={blog.title}
-                  className="w-full h-96 md:h-[600px] object-cover"
-                />
+  src={blog.image?.startsWith("http") 
+    ? blog.image 
+    : `${import.meta.env.VITE_UPLOADS_URL}/${blog.image}`}
+  alt={blog.title}
+  className="w-full h-96 md:h-[600px] object-cover"
+/>
+
                 <span className="absolute inset-0 bg-gradient-to-r from-white/30 via-white/50 to-white/30 opacity-0 group-hover:opacity-100 animate-[shine_1.5s_ease-in-out_infinite] pointer-events-none"></span>
               </div>
             )}

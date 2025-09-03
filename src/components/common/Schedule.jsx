@@ -29,6 +29,16 @@ const Schedule = () => {
 
     fetchSpeakers();
   }, []);
+// Helper that supports Cloudinary URLs and old /uploads paths
+const resolvePhotoUrl = (photo, fallback = "/assets/default-avatar.jpg") => {
+  if (!photo) return fallback;
+  if (/^https?:\/\//i.test(photo)) return photo; // Cloudinary (or any absolute) URL
+
+  // Handle old DB values like "/uploads/filename.jpg" or "uploads/filename.jpg"
+  const base = (import.meta.env.VITE_UPLOADS_URL || "").replace(/\/$/, "");
+  const rel = photo.startsWith("/") ? photo : `/${photo}`;
+  return base ? `${base}${rel}` : fallback;
+};
 
   const schedulesForDay = speakers.flatMap(s =>
     s.schedules
@@ -37,7 +47,8 @@ const Schedule = () => {
         ...sc,
         speakerName: s.name,
         speakerRole: s.role,
-        speakerPhoto: s.photo ? `${BACKEND_URL}${s.photo}` : "/assets/default-avatar.jpg",
+        speakerPhoto: resolvePhotoUrl(s.photo),
+
         speakerId: s._id,
       }))
   );
