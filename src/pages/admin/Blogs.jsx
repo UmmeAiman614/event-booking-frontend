@@ -50,7 +50,7 @@ const columns = [
     render: (value, blog) =>
       blog.image ? (
         <img
-          src={`http://localhost:3000/${blog.image}`}
+           src={blog.image?.startsWith("http") ? blog.image : `${import.meta.env.VITE_UPLOADS_URL}/${blog.image}`}
           alt={blog.title}
           className="w-20 h-14 object-cover rounded"
         />
