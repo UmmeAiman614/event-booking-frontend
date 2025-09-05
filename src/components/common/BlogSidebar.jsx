@@ -32,7 +32,7 @@ const BlogSidebar = ({ allBlogs = [], searchTerm, setSearchTerm }) => {
                 >
                   {post.image && (
                     <img
-                      src={`${import.meta.env.VITE_UPLOADS_URL}/${post.image}`}
+                      src={post.image?.startsWith("http") ? post.image : `${import.meta.env.VITE_UPLOADS_URL}/${post.image}`}
                       alt={post.title}
                       className="w-16 h-16 object-cover rounded-lg shadow"
                     />

@@ -11,9 +11,11 @@ import {
   Phone,
   Menu,
   X,
+  Home, // ✅ added home icon
 } from "lucide-react";
 
 const allMenuItems = [
+  { name: "Home", path: "/", icon: Home, roles: ["admin", "speaker"] }, // ✅ new home link
   { name: "Dashboard", path: "/admin/dashboard", icon: LayoutDashboard, roles: ["admin"] },
   { name: "Users", path: "/admin/users", icon: Users, roles: ["admin"] },
   { name: "Events", path: "/admin/events", icon: Calendar, roles: ["admin"] },
@@ -66,13 +68,18 @@ const Sidebar = () => {
         <nav className="flex-1 p-4 space-y-2 mt-16 md:mt-0">
           {menuItems.map((item) => {
             const Icon = item.icon;
+            const isHome = item.name === "Home"; // ✅ detect home
             return (
               <NavLink
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
                   `flex items-center px-4 py-2 rounded-lg transition-colors duration-200 ${
-                    isActive
+                    isHome
+                      ? isActive
+                        ? "bg-accentOrange text-white font-bold shadow-md scale-105"
+                        : "text-accentOrange font-semibold border border-accentOrange hover:bg-accentOrange hover:text-white"
+                      : isActive
                       ? "bg-primaryBlue text-white"
                       : "text-cream hover:bg-accentOrange hover:text-white"
                   }`

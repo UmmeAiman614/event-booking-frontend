@@ -61,13 +61,13 @@ const HomeAbout = () => {
           {/* Optional Mission & Vision if available */}
           {about.mission && (
             <p className="text-primaryBlue font-semibold">
-              <span className="text-darkNavy">Our Mission: </span>
+              <span className="text-darkNavy text-2xl font-bold">Our Mission: </span>
               {about.mission}
             </p>
           )}
           {about.vision && (
             <p className="text-accentOrange font-semibold">
-              <span className="text-darkNavy">Our Vision: </span>
+              <span className="text-darkNavy text-2xl font-bold">Our Vision: </span>
               {about.vision}
             </p>
           )}

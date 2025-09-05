@@ -64,7 +64,7 @@ const BlogSection = () => {
             >
               {blog.image && (
                 <img
-                  src={`http://localhost:3000/${blog.image}`}
+                  src={blog.image?.startsWith("http") ? blog.image : `${import.meta.env.VITE_UPLOADS_URL}/${blog.image}`}
                   alt={blog.title}
                   className="w-full h-52 object-cover"
                 />
