@@ -23,9 +23,20 @@ const Tickets = ({ event }) => {
     };
 
     const handleBuy = (ticket) => {
-        setCurrentTicket(ticket);
-        setShowModal(true);
-    };
+    const qty = selectedTickets[ticket.id] || 1;
+
+    // Navigate to get-tickets page with state
+    navigate("/get-tickets", {
+        state: {
+            ticketType: ticket.name,
+            price: ticket.price,
+            quantity: qty,
+            eventId: event._id,
+            eventName: event.name
+        }
+    });
+};
+
 
     const confirmBooking = async () => {
         if (!currentTicket) return;

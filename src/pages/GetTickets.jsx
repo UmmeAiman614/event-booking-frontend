@@ -14,11 +14,12 @@ const GetTickets = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { ticketType: preSelectedType, price: preSelectedPrice, quantity: preQuantity } =
+  // Extract preselected ticket info from navigation state
+  const { ticketType: preSelectedType, price: preSelectedPrice, quantity: preQuantity, eventId: preEventId } =
     location.state || {};
 
   const [events, setEvents] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState(""); // store event ID
+  const [selectedEvent, setSelectedEvent] = useState(preEventId || ""); // use preselected event if passed
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [ticketType, setTicketType] = useState(preSelectedType || "");
@@ -39,6 +40,7 @@ const GetTickets = () => {
     fetchEvents();
   }, []);
 
+  // If no preselected ticket, reset to default
   useEffect(() => {
     if (!preSelectedType) {
       setTicketType("");
@@ -55,41 +57,40 @@ const GetTickets = () => {
     }
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!fullName || !email || !selectedEvent) {
-    alert("❌ Please enter your name, email, and select an event.");
-    return;
-  }
-
-  const total = price * quantity;
-
-  try {
-    setLoading(true);
-
-    const res = await api.post(`/bookings/${selectedEvent}`, {
-      fullName,
-      email,
-      ticketType,
-      quantity,
-      totalPrice: total,
-    });
-
-    if (res.status === 201) {
-      alert("✅ Booking successful! Your ticket is pending admin approval.");
-      navigate("/bookings");
+    if (!fullName || !email || !selectedEvent || !ticketType) {
+      alert("❌ Please enter your name, email, select an event, and choose a ticket type.");
+      return;
     }
-  } catch (error) {
-    console.error("Booking failed:", error);
-    const message =
-      error.response?.data?.message || "Failed to complete booking. Please try again.";
-    alert(`❌ ${message}`);
-  } finally {
-    setLoading(false);
-  }
-};
 
+    const total = price * quantity;
+
+    try {
+      setLoading(true);
+
+      const res = await api.post(`/bookings/${selectedEvent}`, {
+        fullName,
+        email,
+        ticketType,
+        quantity,
+        totalPrice: total,
+      });
+
+      if (res.status === 201) {
+        alert("✅ Booking successful! Your ticket is pending admin approval.");
+        navigate("/bookings");
+      }
+    } catch (error) {
+      console.error("Booking failed:", error);
+      const message =
+        error.response?.data?.message || "Failed to complete booking. Please try again.";
+      alert(`❌ ${message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -144,7 +145,7 @@ const GetTickets = () => {
                     <option value="" disabled>Select an event</option>
                     {events.map((ev) => (
                       <option key={ev._id} value={ev._id}>
-                        {ev.title.split(" ").slice(0, 3).join(" ")}{/* first 2-3 words */}
+                        {ev.title.split(" ").slice(0, 3).join(" ")}
                       </option>
                     ))}
                   </select>

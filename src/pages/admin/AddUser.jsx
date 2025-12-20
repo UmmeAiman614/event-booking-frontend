@@ -27,17 +27,37 @@ const AddUser = () => {
   };
 
   const userFields = [
-    { name: "name", label: "Name", type: "text", required: true },
-    { name: "email", label: "Email", type: "email", required: true },
-    { name: "password", label: "Password", type: "password", required: true },
-    {
-      name: "role",
-      label: "Role",
-      type: "select",
-      options: ["user", "admin", "speaker"],
-      required: true,
-    },
-  ];
+  { 
+    name: "name", 
+    label: "Name", 
+    type: "text", 
+    required: true, 
+    minLength: 2, 
+    maxLength: 50 
+  },
+  { 
+    name: "email", 
+    label: "Email", 
+    type: "email", 
+    required: true, 
+    pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // basic email regex
+  },
+  { 
+    name: "password", 
+    label: "Password", 
+    type: "password", 
+    required: true, 
+    minLength: 6, 
+  },
+  { 
+    name: "role", 
+    label: "Role", 
+    type: "select", 
+    options: ["user", "admin", "speaker"], 
+    required: true, 
+  },
+];
+
 
   return (
     <div className="p-6">

@@ -80,6 +80,7 @@ const UpdateBlog = () => {
         onSubmit={handleSubmit}
         submitLabel="Update Blog"
         fields={fields}
+        showSchedules={false}  // ✅ hide schedule section for blogs
       />
 
       {/* Show existing image if available */}

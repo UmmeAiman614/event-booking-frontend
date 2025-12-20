@@ -11,11 +11,30 @@ const SignUp = () => {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
+  const validateForm = () => {
+    const { name, email, password, confirmPassword } = form;
+
+    if (!name.trim()) return "Full name is required";
+    if (!email.trim()) return "Email is required";
+
+    // Simple email regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) return "Invalid email address";
+
+    if (!password) return "Password is required";
+    if (password.length < 6) return "Password must be at least 6 characters";
+
+    if (password !== confirmPassword) return "Passwords do not match";
+
+    return null;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    if (form.password !== form.confirmPassword) return setError("Passwords do not match");
+    const validationError = validateForm();
+    if (validationError) return setError(validationError);
 
     try {
       setLoading(true);
@@ -40,7 +59,13 @@ const SignUp = () => {
           <Input label="Password" name="password" type="password" value={form.password} onChange={handleChange} placeholder="********" labelColor="text-white" inputColor="text-white" bgColor="bg-darkNavy"/>
           <Input label="Confirm Password" name="confirmPassword" type="password" value={form.confirmPassword} onChange={handleChange} placeholder="********" labelColor="text-white" inputColor="text-white" bgColor="bg-darkNavy"/>
 
-          <button type="submit" disabled={loading} className="w-full py-3 bg-accentOrange text-white rounded-lg">{loading ? "Signing Up..." : "Sign Up"}</button>
+          <button 
+            type="submit" 
+            disabled={loading} 
+            className="w-full py-3 bg-accentOrange text-white rounded-lg hover:bg-primaryBlue transition"
+          >
+            {loading ? "Signing Up..." : "Sign Up"}
+          </button>
         </form>
 
         <p className="mt-6 text-center text-white">

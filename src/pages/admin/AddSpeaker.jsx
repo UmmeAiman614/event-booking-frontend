@@ -16,15 +16,65 @@ const AddSpeaker = () => {
     photo: null, // store uploaded file
   });
 
-  const speakerFields = [
-    { label: "Name", name: "name", type: "text", required: true },
-    { label: "Username", name: "username", type: "text", required: true },
-    { label: "Email", name: "email", type: "email", required: true },
-    { label: "Password", name: "password", type: "password", required: true },
-    { label: "Bio", name: "bio", type: "textarea", fullWidth: true },
-    { label: "Expertise", name: "expertise", type: "text" },
-    { label: "Photo", name: "photo", type: "file" }, // upload image
-  ];
+ const speakerFields = [
+  { 
+    label: "Name", 
+    name: "name", 
+    type: "text", 
+    required: true, 
+    minLength: 2, 
+    maxLength: 50 
+  },
+  { 
+    label: "Username", 
+    name: "username", 
+    type: "text", 
+    required: true, 
+    minLength: 3, 
+    maxLength: 30 
+  },
+  { 
+    label: "Email", 
+    name: "email", 
+    type: "email", 
+    required: true, 
+    pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, 
+  },
+  { 
+    label: "Password", 
+    name: "password", 
+    type: "password", 
+    required: true, 
+    minLength: 6, 
+  },
+  { 
+    label: "Bio", 
+    name: "bio", 
+    type: "textarea", 
+    fullWidth: true, 
+    minLength: 10 
+  },
+  { 
+    label: "Expertise", 
+    name: "expertise", 
+    type: "text", 
+    minLength: 2 
+  },
+  { 
+    label: "Photo", 
+    name: "photo", 
+    type: "file", 
+    required: true, 
+    validate: (file) => {
+      if (!(file instanceof File)) return "Please upload a photo";
+      const allowedTypes = ["image/jpeg", "image/png"];
+      if (!allowedTypes.includes(file.type)) return "Only JPG/PNG allowed";
+      if (file.size > 2 * 1024 * 1024) return "Photo must be under 2MB";
+      return null;
+    }
+  },
+];
+
 
 const handleSubmit = async (e) => {
   e.preventDefault();

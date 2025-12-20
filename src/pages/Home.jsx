@@ -5,7 +5,7 @@ import Speakers from "../components/common/Speakers";
 import Stats from "../components/common/Stats";
 import Schedule from "../components/common/Schedule";
 import WhyChooseUs from "../components/home/WhyChooseUs";
-import RegisterForm from "../components/home/RegisterForm";
+// import RegisterForm from "../components/home/RegisterForm";
 import BlogSection from "../components/home/BlogSection";
 const Home = () => {
   return (
@@ -17,7 +17,7 @@ const Home = () => {
       <Stats bgColor="bg-cream" numberColor="text-darkNavy" labelColor="text-neutralDark" />
       <Schedule />
       <WhyChooseUs />
-      <RegisterForm />
+      {/* <RegisterForm /> */}
       <BlogSection />
       {/* Other home page sections can be added here */}
     </div>

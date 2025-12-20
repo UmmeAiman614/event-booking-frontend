@@ -23,14 +23,15 @@ export default {
         neutralDark: '#2E2C2E',
       },
       keyframes: {
-        shine: {
-          '0%': { transform: 'translateX(-100%)' },
-          '100%': { transform: 'translateX(100%)' },
-        },
-      },
-      animation: {
-        shine: 'shine 1.5s ease-in-out forwards',
-      },
+  shine: {
+    '0%': { transform: 'translateX(-100%)' },
+    '100%': { transform: 'translateX(100vw)' }, // move across entire viewport width
+  },
+},
+animation: {
+  shine: 'shine 1.5s ease-in-out infinite',
+},
+
     },
   },
   plugins: [],

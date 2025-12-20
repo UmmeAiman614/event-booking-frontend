@@ -17,13 +17,57 @@ const AddEvent = () => {
   });
 
   const fields = [
-    { label: "Title", name: "title", type: "text", required: true },
-    { label: "Description", name: "description", type: "textarea", fullWidth: true },
-    { label: "Date", name: "date", type: "date", required: true },
-    { label: "Location", name: "location", type: "text" },
-    { label: "Total Seats", name: "totalSeats", type: "number", required: true },
-    { label: "Event Image", name: "image", type: "file" },
-  ];
+  { 
+    label: "Title", 
+    name: "title", 
+    type: "text", 
+    required: true, 
+    minLength: 5, // Title must be at least 5 characters
+    maxLength: 100, // Optional max length
+  },
+  { 
+    label: "Description", 
+    name: "description", 
+    type: "textarea", 
+    fullWidth: true, 
+    required: true, // Make description required
+    minLength: 10, // Optional minimum content length
+  },
+  { 
+    label: "Date", 
+    name: "date", 
+    type: "date", 
+    required: true, 
+  },
+  { 
+    label: "Location", 
+    name: "location", 
+    type: "text", 
+    required: true, // Make location required
+  },
+  { 
+    label: "Total Seats", 
+    name: "totalSeats", 
+    type: "number", 
+    required: true, 
+    validate: (value) =>
+      value <= 0 ? "Total seats must be greater than 0" : null, // Custom validation
+  },
+  { 
+    label: "Event Image", 
+    name: "image", 
+    type: "file", 
+    required: true, // Image is required
+    validate: (file) => {
+      if (!(file instanceof File)) return "Please upload an image";
+      const allowedTypes = ["image/jpeg", "image/png"];
+      if (!allowedTypes.includes(file.type)) return "Only JPG/PNG images allowed";
+      if (file.size > 2 * 1024 * 1024) return "Image must be less than 2MB";
+      return null;
+    },
+  },
+];
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

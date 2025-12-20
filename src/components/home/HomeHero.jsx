@@ -1,4 +1,5 @@
 // src/components/home/HomeHero.jsx
+import { Link } from "react-router-dom";
 import React from "react";
 import { MapPin, Users, Mic } from "lucide-react";
 
@@ -17,16 +18,17 @@ const HomeHero = () => {
                 <h1 className="text-4xl md:text-5xl font-bold mb-6">
                     Join the Ultimate Event Experience
                 </h1>
-                
-              {/* Book Now Button */}
-<button className="relative inline-block px-8 py-3 font-semibold text-white rounded-lg overflow-hidden group bg-accentOrange">
-  {/* Sliding gradient background */}
-  <span className="absolute inset-0 bg-gradient-to-r from-accentOrange to-primaryBlue -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-in-out"></span>
 
-  {/* Button text */}
-  <span className="relative z-10">Book Now</span>
-</button>
+                {/* Book Now Button */}
+                <Link to="/get-tickets">
+                    <button className="relative inline-block px-8 py-3 font-semibold text-white rounded-lg overflow-hidden group bg-accentOrange">
+                        {/* Sliding gradient background */}
+                        <span className="absolute inset-0 bg-gradient-to-r from-accentOrange to-primaryBlue -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-in-out"></span>
 
+                        {/* Button text */}
+                        <span className="relative z-10">Book Now</span>
+                    </button>
+                </Link>
             </div>
         </section>
     );

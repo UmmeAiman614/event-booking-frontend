@@ -91,19 +91,22 @@ const BlogDetail = () => {
         <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-4 gap-10">
           <div className="lg:col-span-3 space-y-10">
             {/* Blog Image */}
+            {/* Blog Image */}
             {blog.image && (
               <div className="relative group overflow-hidden rounded-xl shadow-lg">
                 <img
-  src={blog.image?.startsWith("http") 
-    ? blog.image 
-    : `${import.meta.env.VITE_UPLOADS_URL}/${blog.image}`}
-  alt={blog.title}
-  className="w-full h-96 md:h-[600px] object-cover"
-/>
+                  src={blog.image?.startsWith("http")
+                    ? blog.image
+                    : `${import.meta.env.VITE_UPLOADS_URL}/${blog.image}`}
+                  alt={blog.title}
+                  className="w-full h-96 md:h-[600px] object-cover"
+                />
 
-                <span className="absolute inset-0 bg-gradient-to-r from-white/30 via-white/50 to-white/30 opacity-0 group-hover:opacity-100 animate-[shine_1.5s_ease-in-out_infinite] pointer-events-none"></span>
+                {/* Slim sparkle line */}
+                <span className="absolute top-0 left-0 w-12 h-full bg-gradient-to-r from-white/0 via-white/70 to-white/0 opacity-0 group-hover:opacity-100 animate-shine pointer-events-none"></span>
               </div>
             )}
+
 
             {/* Blog Details */}
             <div className="space-y-4">

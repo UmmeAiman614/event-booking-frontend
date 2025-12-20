@@ -12,11 +12,38 @@ const AddBlog = () => {
     photo: null,   // renamed from image → photo
   });
 
-  const fields = [
-    { label: "Title", name: "title", type: "text", required: true },
-    { label: "Content", name: "content", type: "textarea", fullWidth: true, required: true },
-    { label: "Photo", name: "photo", type: "file" },  // renamed
-  ];
+ const fields = [
+  { 
+    label: "Title", 
+    name: "title", 
+    type: "text", 
+    required: true, 
+    minLength: 5, 
+    maxLength: 100 
+  },
+  { 
+    label: "Content", 
+    name: "content", 
+    type: "textarea", 
+    fullWidth: true, 
+    required: true, 
+    minLength: 20 
+  },
+  { 
+    label: "Photo", 
+    name: "photo", 
+    type: "file", 
+    required: true, 
+    validate: (file) => {
+      if (!(file instanceof File)) return "Please upload a photo";
+      const allowedTypes = ["image/jpeg", "image/png"];
+      if (!allowedTypes.includes(file.type)) return "Only JPG/PNG images allowed";
+      if (file.size > 2 * 1024 * 1024) return "Photo must be less than 2MB";
+      return null;
+    }
+  },
+];
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

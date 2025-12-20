@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { getUserBookings } from "../../api/api";
 
 const Navbar = () => {
@@ -63,7 +63,7 @@ const Navbar = () => {
   const baseLinks = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    {name: "Events", path: "/events" },
+    { name: "Events", path: "/events" },
     { name: "Speakers", path: "/speakers" },
     { name: "Schedule", path: "/schedule" },
     { name: "Blog", path: "/blog" },
@@ -88,20 +88,26 @@ const Navbar = () => {
     <nav className="bg-cream shadow-md fixed w-full z-50">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
-        <Link to="/" className="text-2xl font-bold">
+        <NavLink to="/" className="text-2xl font-bold">
           <img src="/assets/nav-logo.png" alt="Logo" className="h-10 w-auto" />
-        </Link>
+        </NavLink>
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center space-x-6">
           {navLinks.map((link) => (
-            <Link
+            <NavLink
               key={link.name}
               to={link.path}
-              className="text-darkNavy hover:text-primaryBlue font-semibold transition"
+              className={({ isActive }) =>
+                `font-semibold transition ${
+                  isActive
+                    ? "text-accentOrange"
+                    : "text-darkNavy hover:text-primaryBlue"
+                }`
+              }
             >
               {link.name}
-            </Link>
+            </NavLink>
           ))}
 
           {user ? (
@@ -122,20 +128,28 @@ const Navbar = () => {
               </button>
             </>
           ) : (
-            <Link
+            <NavLink
               to="/signIn"
-              className="px-4 py-2 rounded bg-primaryBlue text-white hover:bg-accentOrange transition"
+              className={({ isActive }) =>
+                `px-4 py-2 rounded text-white transition ${
+                  isActive ? "bg-accentOrange" : "bg-primaryBlue hover:bg-accentOrange"
+                }`
+              }
             >
               Login
-            </Link>
+            </NavLink>
           )}
 
-          <Link
+          <NavLink
             to="/get-tickets"
-            className="ml-4 bg-accentOrange text-white px-4 py-2 rounded hover:bg-primaryBlue transition"
+            className={({ isActive }) =>
+              `ml-4 px-4 py-2 rounded text-white transition ${
+                isActive ? "bg-primaryBlue" : "bg-accentOrange hover:bg-primaryBlue"
+              }`
+            }
           >
             Get Tickets
-          </Link>
+          </NavLink>
         </div>
 
         {/* Mobile Hamburger */}
@@ -169,13 +183,19 @@ const Navbar = () => {
           <ul className="flex flex-col space-y-4 p-4">
             {navLinks.map((link) => (
               <li key={link.name}>
-                <Link
+                <NavLink
                   to={link.path}
                   onClick={() => setIsOpen(false)}
-                  className="text-darkNavy font-semibold block hover:text-primaryBlue transition"
+                  className={({ isActive }) =>
+                    `font-semibold block text-center transition ${
+                      isActive
+                        ? "text-accentOrange"
+                        : "text-darkNavy hover:text-primaryBlue"
+                    }`
+                  }
                 >
                   {link.name}
-                </Link>
+                </NavLink>
               </li>
             ))}
 
@@ -200,22 +220,30 @@ const Navbar = () => {
                 </button>
               </>
             ) : (
-              <Link
+              <NavLink
                 to="/signIn"
                 onClick={() => setIsOpen(false)}
-                className="px-4 py-2 rounded bg-primaryBlue text-white hover:bg-accentOrange transition block text-center"
+                className={({ isActive }) =>
+                  `px-4 py-2 rounded transition block text-center text-white ${
+                    isActive ? "bg-accentOrange" : "bg-primaryBlue hover:bg-accentOrange"
+                  }`
+                }
               >
                 Login
-              </Link>
+              </NavLink>
             )}
 
-            <Link
+            <NavLink
               to="/get-tickets"
               onClick={() => setIsOpen(false)}
-              className="ml-0 mt-2 bg-accentOrange text-white px-4 py-2 rounded hover:bg-primaryBlue transition block text-center"
+              className={({ isActive }) =>
+                `mt-2 px-4 py-2 rounded transition block text-center text-white ${
+                  isActive ? "bg-primaryBlue" : "bg-accentOrange hover:bg-primaryBlue"
+                }`
+              }
             >
               Get Tickets
-            </Link>
+            </NavLink>
           </ul>
         </div>
       )}
