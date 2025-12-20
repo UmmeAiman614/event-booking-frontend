@@ -11,7 +11,19 @@ const AdminBookings = () => {
     try {
       const { data } = await getAllBookings();
       console.log("✅ Fetched bookings:", data);
-      setBookings(data);
+
+      // Filter out bookings where user does not exist
+      const filteredBookings = data.filter((booking) => {
+        if (!booking.user) {
+          console.warn(`Booking ${booking._id} has no user, it will be ignored.`);
+          // Optional: call API to delete this booking
+          // deleteBooking(booking._id);
+          return false; // exclude from display
+        }
+        return true;
+      });
+
+      setBookings(filteredBookings);
     } catch (error) {
       console.error("❌ Failed to fetch bookings");
       if (error.response) {
@@ -35,6 +47,11 @@ const AdminBookings = () => {
 
   const handleApprove = async (booking) => {
     try {
+      if (!booking.user) {
+        console.warn(`Cannot approve booking ${booking._id}, user does not exist.`);
+        return;
+      }
+      console.log("Approving booking id:", booking._id);
       await approveBooking(booking._id);
       fetchBookings();
     } catch (error) {
@@ -44,6 +61,10 @@ const AdminBookings = () => {
 
   const handleReject = async (booking) => {
     try {
+      if (!booking.user) {
+        console.warn(`Cannot reject booking ${booking._id}, user does not exist.`);
+        return;
+      }
       await rejectBooking(booking._id);
       fetchBookings();
     } catch (error) {

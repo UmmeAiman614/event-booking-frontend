@@ -14,17 +14,19 @@ const AddUser = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await createUser(formData);
-      alert("User created successfully!");
-      navigate("/admin/users"); // redirect to users table
-    } catch (error) {
-      console.error(error);
-      alert(error.message || "Failed to create user");
-    }
-  };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  console.log("📤 Sending formData:", formData); // ADD THIS
+  console.log("📤 Password length:", formData.password.length); // ADD THIS
+  try {
+    await createUser(formData);
+    alert("User created successfully!");
+    navigate("/admin/users");
+  } catch (error) {
+    console.error(error);
+    alert(error.message || "Failed to create user");
+  }
+};
 
   const userFields = [
   { 
